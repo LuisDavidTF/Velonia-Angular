@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/">Velonia</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/category/man">Hombres</a></li>
+              <li><a class="dropdown-item" routerLink="/category/woman">Mujeres</a></li>
+              <li><a class="dropdown-item" routerLink="/category/boy">Niños</a></li>
+              <li><a class="dropdown-item" routerLink="/category/girl">Niñas</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <!-- Si el usuario está logueado -->
+          <li class="nav-item" *ngIf="user">
+            <a class="nav-link" routerLink="/cart">
+              <i class="bi bi-cart"></i> Carrito
+            </a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="user">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              {{ user.username }}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/profile">Perfil</a></li>
+              <li><a class="dropdown-item" routerLink="/products/add">Agregar Producto</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+            </ul>
+          </li>
+          <!-- Si el usuario NO está logueado -->
+          <li class="nav-item" *ngIf="!user">
+            <a class="nav-link" (click)="redirectToLogin()">Iniciar sesión</a>
+          </li>
+          <li class="nav-item" *ngIf="!user">
+            <a class="nav-link" (click)="redirectToRegister()">Registrarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
