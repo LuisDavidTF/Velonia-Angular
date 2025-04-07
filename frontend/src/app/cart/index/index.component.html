@@ -1,0 +1,53 @@
+<div class="container my-5">
+  <h1 class="mb-4">Carrito de Compras</h1>
+
+  <div *ngIf="cartItems.length === 0" class="alert alert-info">
+    Tu carrito está vacío. <a href="/" class="alert-link">Seguir comprando</a>
+  </div>
+
+  <div *ngIf="cartItems.length > 0" class="row">
+    <div class="col-md-8">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <div class="row align-items-center">
+          <div class="col-md-2">
+            <img [src]="item.image_url" class="img-fluid" [alt]="item.name">
+          </div>
+          <div class="col-md-4">
+            <h5>{{ item.name }}</h5>
+            <p class="text-muted">Tamaño: {{ item.size }}, Color: {{ item.color }}</p>
+          </div>
+          <div class="col-md-2">
+            ${{ item.price }}
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control quantity-input" [(ngModel)]="item.quantity" min="1" max="10" (change)="updateQuantity(item)">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-danger btn-sm" (click)="confirmRemoveCartItem(item.id)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resumen del Pedido</h5>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Subtotal</span>
+            <span>${{ total.toFixed(2) }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Envío</span>
+            <span>Gratis</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-3">
+            <strong>Total</strong>
+            <strong>${{ total.toFixed(2) }}</strong>
+          </div>
+          <button id="checkout-button" class="btn btn-primary w-100" >Proceder al Pago</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
