@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,9 +12,16 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   // Obtener los artículos del carrito
-  getCartItems(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`);
+  getCartItems(): Observable<any> {
+    const token = localStorage.getItem('token'); // o donde lo tengas almacenado
+  
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  
+    return this.http.get<any>(`${this.apiUrl}`, { headers });
   }
+  
 
   // Actualizar la cantidad de un artículo en el carrito
   updateItemQuantity(itemId: number, quantity: number): Observable<any> {
