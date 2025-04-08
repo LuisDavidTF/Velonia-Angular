@@ -17,7 +17,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = '/api/auth'; // Se asume que tus rutas están montadas en /api/auth
+  private baseUrl = '/api/auth'; 
   private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {
@@ -35,7 +35,6 @@ export class AuthService {
       tap((res) => {
         if (res && res.user) {
           localStorage.setItem('user', JSON.stringify(res.user)); // Guardar al usuario en localStorage
-          localStorage.setItem('idUser',JSON.stringify(res.token))
           this.userSubject.next(res.user); // Actualizamos el estado del usuario
         }
       })

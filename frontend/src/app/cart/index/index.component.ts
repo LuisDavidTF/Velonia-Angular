@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'app/services/cart/cart.service';
 import { FormsModule } from '@angular/forms';  // Importa FormsModule
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-index',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
@@ -19,10 +20,16 @@ export class IndexComponent implements OnInit{
 
   // Cargar los productos del carrito desde el backend
   loadCart() {
-    this.cartService.getCartItems().subscribe(items => {
-      this.cartItems = items;
-      this.calculateTotal();
-    });
+    this.cartService.getCartItems().subscribe(
+    data => {
+      console.log('✅ Respuesta del backend:', data); // <-- AQUI
+      this.cartItems = data.cartItems;
+      this.total = data.total;
+    },
+    error => {
+      console.error('❌ Error al cargar el carrito:', error); // <-- AQUI
+    }
+  );
   }
 
   // Actualizar la cantidad del artículo en el carrito

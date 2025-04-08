@@ -10,6 +10,7 @@ export const cartController = {
   async getCart(req, res) {
     try {
       const userId = req.user.id;
+      console.log('Usuario autenticado con ID:', userId);
       const cartItems = await cartDao.getCartItems(userId);
       const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
       

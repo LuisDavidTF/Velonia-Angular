@@ -10,8 +10,7 @@ import { CartService } from 'app/services/cart/cart.service';
   imports: [CommonModule,RouterModule] 
 })
 export class NavbarComponent {
-  user: any = null; // Simulación, reemplazar con datos reales
-
+  user: any = null;
   constructor(private authService: AuthService,private router: Router, private cdr: ChangeDetectorRef) {console.log("Estado inicial de user:", this.user);}
   ngOnInit(): void {
     // Suscribirse al estado del usuario
@@ -21,6 +20,7 @@ export class NavbarComponent {
   }
   logout() {
     this.user = null;
+    
     this.cdr.detectChanges(); // Forzar actualización de la vista
     this.router.navigate(['/auth/login']);
   }
