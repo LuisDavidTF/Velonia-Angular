@@ -1,1 +1,45 @@
-<p>add works!</p>
+<div class="container my-5">
+    <div class="form-container">
+      <h2 class="text-center mb-4">Agregar Nuevo Producto</h2>
+  
+      <form (ngSubmit)="onSubmit()" #productForm="ngForm" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre del Producto</label>
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" required>
+        </div>
+  
+        <div class="mb-3">
+          <label for="category_id" class="form-label">Categoría</label>
+          <select class="form-select" id="category_id" name="category_id" [(ngModel)]="product.category_id" required>
+            <option value="">Seleccionar Categoría</option>
+            <option value="1">Hombres</option>
+            <option value="2">Mujeres</option>
+            <option value="3">Niños</option>
+            <option value="4">Niñas</option>
+          </select>
+        </div>
+  
+        <div class="mb-3">
+          <label for="description" class="form-label">Descripción</label>
+          <textarea class="form-control" id="description" name="description" [(ngModel)]="product.description" rows="3" required></textarea>
+        </div>
+  
+        <div class="mb-3">
+          <label for="price" class="form-label">Precio</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input type="number" class="form-control" id="price" name="price" [(ngModel)]="product.price" step="0.01" required>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="images" class="form-label">Imágenes del Producto</label>
+          <input type="file" class="form-control" id="images" name="images" (change)="onFileChange($event)" multiple accept="image/*" required>
+          <small class="text-muted">Puedes subir hasta 5 imágenes. La primera será la imagen principal.</small>
+        </div>
+  
+        <button type="submit" class="btn btn-primary w-100">Continuar para Agregar Variantes</button>
+      </form>
+    </div>
+  </div>
+  

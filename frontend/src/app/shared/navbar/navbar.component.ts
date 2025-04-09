@@ -24,13 +24,15 @@ export class NavbarComponent {
     this.cdr.detectChanges(); // Forzar actualización de la vista
     this.router.navigate(['/auth/login']);
   }
-  
+  redirectToAdd():void{
+    this.router.navigate(['/product/add'])
+  }
   redirectToLogin(): void {
-    this.router.navigate(['/auth/login']); // Redirige a la ruta '/auth/login'
+    this.router.navigate(['/auth/login']); 
   }
 
   redirectToRegister(): void {
-    this.router.navigate(['/auth/register']); // Redirige a la ruta '/auth/register'
+    this.router.navigate(['/auth/register']);
   }
   redirectToCart(): void {
     this.router.navigate(['/cart']);
