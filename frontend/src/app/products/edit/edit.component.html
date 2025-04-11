@@ -1,1 +1,65 @@
-<p>edit works!</p>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="name">Nombre del Producto</label>
+      <input id="name" type="text" formControlName="name" class="form-control" />
+    </div>
+  
+    <div class="mb-3">
+      <label for="category_id">Categoría</label>
+      <select id="category_id" formControlName="category_id" class="form-select">
+        <option value="">Seleccionar Categoría</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+    </div>
+  
+    <div class="mb-3">
+      <label for="description">Descripción</label>
+      <textarea id="description" formControlName="description" rows="3" class="form-control"></textarea>
+    </div>
+  
+    <div class="mb-3">
+      <label for="price">Precio</label>
+      <input id="price" type="number" formControlName="price" class="form-control" step="0.01" />
+    </div>
+  
+    <!-- Imágenes actuales -->
+    <div *ngIf="product.images?.length">
+      <div *ngFor="let image of product.images; let i = index" class="position-relative">
+        <img [src]="image" class="img-fluid rounded mb-2" />
+        <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" type="button" (click)="deleteImage(image)">×</button>
+      </div>
+    </div>
+  
+    <!-- Nuevas imágenes -->
+    <div class="mb-3">
+      <label for="images">Agregar nuevas imágenes</label>
+      <input id="images" type="file" (change)="onFileChange($event)" multiple class="form-control" />
+    </div>
+  
+    <!-- Variantes -->
+    <div formArrayName="variants">
+      <div *ngFor="let variant of variants.controls; let i = index" [formGroupName]="i" class="row mb-2">
+        <div class="col-md-3">
+          <select formControlName="size" class="form-select">
+            <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <input type="text" formControlName="color" class="form-control" />
+        </div>
+        <div class="col-md-3">
+          <input type="number" formControlName="stock" class="form-control" />
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-danger" (click)="deleteVariant(i)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Botones -->
+    <div class="d-flex justify-content-between mt-4">
+      <button type="submit" class="btn btn-primary">Actualizar Producto</button>
+      <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar Producto</button>
+    </div>
+  </form>
+  
