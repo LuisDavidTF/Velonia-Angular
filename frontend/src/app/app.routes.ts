@@ -17,7 +17,6 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'auth/login', component: LoginComponent },
       { path: 'auth/register', component: RegisterComponent },
-      { path:'category/:category', component:CategoryComponent},
       { path:'cart',component:IndexComponent},
       { path:'product/add',component:AddComponent},
       { path:'product/:id',component:DetailComponent},
