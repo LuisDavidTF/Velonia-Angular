@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'app/services/auth/auth.service';
 import { ProductService } from 'app/services/product/product.service';
 
 @Component({
@@ -22,7 +23,9 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private authService:AuthService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +37,8 @@ export class DetailComponent implements OnInit {
   fetchProduct(): void {
     this.productService.getProduct(this.productId).subscribe({
       next: (res) => {
-        this.product = res.data;
+        this.product = res.data.product;
+        console.log('Producto cargado:', this.product,this.productId);
         this.images = this.product.images ? this.product.images.split(',') : [];
       },
       error: (err) => console.error('Error fetching product:', err),
@@ -79,12 +83,35 @@ export class DetailComponent implements OnInit {
   }
 
   addToCart(): void {
-    
-    console.log('Añadir al carrito:', {
+    if (!this.authService.isLoggedIn()) {
+      alert('Debes iniciar sesión para añadir productos al carrito');
+      this.router.navigate(['/login']);
+      return;
+    }
+  
+    if (!this.selectedSize || !this.selectedColor || this.quantity < 1) {
+      alert('Por favor, selecciona talla, color y cantidad válida.');
+      return;
+    }
+  
+    const cartData = {
       productId: this.productId,
       size: this.selectedSize,
       color: this.selectedColor,
       quantity: this.quantity,
+    };
+  
+    this.productService.addToCart(cartData).subscribe({
+      next: (res) => {
+        console.log('Producto añadido al carrito:', res);
+        alert('Producto añadido al carrito correctamente');
+      },
+      error: (err) => {
+        console.error('Error al añadir al carrito:', err);
+        alert('Ocurrió un error al añadir el producto al carrito');
+      }
     });
   }
+  
+  
 }

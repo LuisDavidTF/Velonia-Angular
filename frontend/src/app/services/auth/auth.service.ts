@@ -32,8 +32,9 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
       tap((res) => {
-        if (res && res.user) {
-          localStorage.setItem('user', JSON.stringify(res.user)); 
+        if (res && res.user && res.token) {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          localStorage.setItem('token', res.token); // <- Guarda el token aquí
           this.userSubject.next(res.user);
         }
       })
@@ -51,6 +52,9 @@ export class AuthService {
         this.userSubject.next(null); 
       })
     );
+  }
+  isLoggedIn(): boolean {
+    return this.userSubject.value !== null;
   }
 }
 
