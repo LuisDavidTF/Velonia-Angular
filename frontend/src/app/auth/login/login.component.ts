@@ -23,7 +23,7 @@ export class LoginComponent {
       next: (res) => {
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
-        this.router.navigate(['/']); // redirige al home o dashboard
+        this.router.navigate(['/']); 
       },
       error: (err) => {
         console.error('Error al iniciar sesión:', err);

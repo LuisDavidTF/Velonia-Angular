@@ -45,18 +45,17 @@ export class DetailComponent implements OnInit {
     this.productService.getVariants(this.productId).subscribe({
       next: (res: any) => {
         console.log('Respuesta del backend:', res);
-        // Verifica si la respuesta tiene la propiedad 'variants' que es un arreglo
         if (Array.isArray(res.data)) {
-          this.variants = res.data; // Asigna solo las variantes
+          this.variants = res.data; 
           this.updateSizeColorOptions();
         } else {
-          this.variants = []; // Si no es un arreglo, asigna un arreglo vacío
+          this.variants = []; 
           console.warn('No se encontraron variantes o el formato es incorrecto');
         }
       },
       error: (err) => {
         console.error(err);
-        this.variants = []; // Asegúrate de tener un arreglo vacío en caso de error
+        this.variants = [];
       },
     });
   }
@@ -76,11 +75,11 @@ export class DetailComponent implements OnInit {
   }
 
   updateSizeColorOptions(): void {
-    // Trigger Angular change detection manually if needed
+    
   }
 
   addToCart(): void {
-    // Lógica para añadir al carrito (opcional, según cómo lo manejes en el backend)
+    
     console.log('Añadir al carrito:', {
       productId: this.productId,
       size: this.selectedSize,

@@ -31,11 +31,10 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
-      // Después de hacer login, actualizamos el estado del usuario
       tap((res) => {
         if (res && res.user) {
-          localStorage.setItem('user', JSON.stringify(res.user)); // Guardar al usuario en localStorage
-          this.userSubject.next(res.user); // Actualizamos el estado del usuario
+          localStorage.setItem('user', JSON.stringify(res.user)); 
+          this.userSubject.next(res.user);
         }
       })
     );
@@ -48,8 +47,8 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {}).pipe(
       tap(() => {
-        localStorage.removeItem('user'); // Limpiar el localStorage
-        this.userSubject.next(null); // Restablecer el estado del usuario
+        localStorage.removeItem('user'); 
+        this.userSubject.next(null); 
       })
     );
   }

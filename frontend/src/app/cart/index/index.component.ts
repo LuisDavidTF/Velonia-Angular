@@ -18,7 +18,7 @@ export class IndexComponent implements OnInit{
     this.loadCart();
   }
 
-  // Cargar los productos del carrito desde el backend
+
   loadCart() {
     this.cartService.getCartItems().subscribe(
     data => {
@@ -32,14 +32,14 @@ export class IndexComponent implements OnInit{
   );
   }
 
-  // Actualizar la cantidad del artículo en el carrito
+
   updateQuantity(item: any) {
     this.cartService.updateItemQuantity(item.id, item.quantity).subscribe(() => {
       this.calculateTotal();
     });
   }
 
-  // Eliminar un artículo del carrito
+
   confirmRemoveCartItem(itemId: number) {
     if (confirm('¿Estás seguro de que deseas eliminar este artículo de tu carrito?')) {
       this.cartService.removeItemFromCart(itemId).subscribe(() => {
@@ -48,11 +48,11 @@ export class IndexComponent implements OnInit{
     }
   }
 
-  // Calcular el total del carrito
+
   calculateTotal() {
     this.total = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 
-  // Proceder al pago con Stripe
+
   
 }

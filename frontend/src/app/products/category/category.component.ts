@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
     this.productService.getByCategory(categoryId).subscribe({
       next: (res) => {
         console.log(res);
-        this.products = res.data; // depende del backend
+        this.products = res.data; 
         this.title = this.getTitleByCategoryId(categoryId);
       },
       error: (err) => {
