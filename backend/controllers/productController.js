@@ -54,7 +54,7 @@ export const productController = {
 
       if (req.files && req.files.length > 0) {
         for (let i = 0; i < req.files.length; i++) {
-          const imageUrl = `/backend/public/uploads/${req.files[i].filename}`;
+          const imageUrl = `public/uploads/${req.files[i].filename}`;
           await productDao.addImage(productId, imageUrl, i === 0);
         }
       }
@@ -78,7 +78,7 @@ export const productController = {
 
       if (req.files && req.files.length > 0) {
         for (let i = 0; i < req.files.length; i++) {
-          const imageUrl = `/uploads/${req.files[i].filename}`;
+          const imageUrl = `public/uploads/${req.files[i].filename}`;
           await productDao.addImage(req.params.id, imageUrl, i === 0);
         }
       }
@@ -110,6 +110,7 @@ export const productController = {
   async getVariants(req, res) {
     try {
       const variants = await productDao.getProductVariants(req.params.id);
+      console.log('Variantes devueltas por el backend:', variants);
       res.status(200).json({ success: true, data: variants });
     } catch (error) {
       console.error(error);

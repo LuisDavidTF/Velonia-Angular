@@ -10,7 +10,7 @@ const router = express.Router();
 // Configuración de almacenamiento de imágenes
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadPath = 'uploads';
+    const uploadPath = 'public/uploads';
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath);
     }

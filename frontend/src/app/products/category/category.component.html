@@ -1,17 +1,15 @@
-<div class="container my-5">
-    <h1 class="mb-4">{{ capitalizeFirstLetter(category) }} Products</h1>
-    
-    <div class="row g-4">
-      <div class="col-md-3" *ngFor="let product of products">
-        <div class="card product-card">
-          <img [src]="product.image_url" class="card-img-top" [alt]="product.name">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">${{ product.price }}</p>
-            <a class="btn btn-primary">Ver Detalles</a>
-          </div>
+<div class="container my-5" *ngIf="products">
+  <h1 class="mb-4">{{ title }}</h1>
+  <div class="row g-4">
+    <div class="col-md-3" *ngFor="let product of products">
+      <div class="card product-card">
+        <img [src]="product.image_url" class="card-img-top" [alt]="product.name">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">${{ product.price }}</p>
+          <a (click)="redirectToDetail(product.id)" class="btn btn-primary">Ver Detalles</a>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

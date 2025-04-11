@@ -16,7 +16,7 @@ export class HomeComponent {
     { name: 'Niñas', photo: 'https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=600&h=400', link: '/category/girl' }
   ];
 
-  readonly baseUrl = "uploads/";
+  readonly baseUrl = "http://localhost:3000/uploads/";
   products = [
     { id: 1, name: 'Sueter', price: 0.03,  photo: `${this.baseUrl}sueter.jpg` },
     { id: 2, name: 'Blusa', price: 1200.00, photo: `${this.baseUrl}blusa.jpg` }

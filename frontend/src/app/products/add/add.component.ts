@@ -42,9 +42,10 @@ export class AddComponent {
     });
 
     this.productService.addProduct(formData).subscribe({
-      next: (res) => {
+      next: (response:any) => {
+        const productId=response.data.productId;
         // Redirigir a la vista de variantes (puedes cambiar la ruta si es distinta)
-        this.router.navigate(['/products/add-variants', res.data.productId]);
+        this.router.navigate(['/products', productId, 'add-variants']);
       },
       error: (err) => {
         console.error('Error al agregar producto:', err);
