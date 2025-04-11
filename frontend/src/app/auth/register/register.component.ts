@@ -31,7 +31,7 @@ export class RegisterComponent {
     this.authService.register(data).subscribe({
       next: (res) => {
         alert('Usuario registrado correctamente');
-        this.router.navigate(['/auth/login']); // redirige al login después de registrarse
+        this.router.navigate(['/auth/login']);
       },
       error: (err) => {
         console.error('Error al registrarse:', err);

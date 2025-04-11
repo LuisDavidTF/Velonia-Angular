@@ -44,7 +44,6 @@ export class AddComponent {
     this.productService.addProduct(formData).subscribe({
       next: (response:any) => {
         const productId=response.data.productId;
-        // Redirigir a la vista de variantes (puedes cambiar la ruta si es distinta)
         this.router.navigate(['/products', productId, 'add-variants']);
       },
       error: (err) => {

@@ -19,23 +19,19 @@ export class ProductService {
     return this.http.post(`${this.apiUrl}`, formData, { headers });
   }
 
-  // Obtener producto por ID
   getProduct(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  // Obtener variantes de un producto
   getVariants(productId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${productId}/variants`);
   }
 
-  // Agregar variante a un producto (requiere autenticación)
   addVariant(productId: string, variantData: any): Observable<any> {
     const headers = this.getAuthHeaders();
     return this.http.post(`${this.apiUrl}/${productId}/variants`, variantData, { headers });
   }
 
-  // Método auxiliar para incluir token
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({

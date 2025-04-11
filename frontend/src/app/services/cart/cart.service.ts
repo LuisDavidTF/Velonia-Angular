@@ -7,13 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class CartService {
 
-  private apiUrl = '/api/cart'; // Ruta a tu API para el carrito
+  private apiUrl = '/api/cart'; 
 
   constructor(private http: HttpClient) { }
 
-  // Obtener los artículos del carrito
+  
   getCartItems(): Observable<any> {
-    const token = localStorage.getItem('token'); // o donde lo tengas almacenado
+    const token = localStorage.getItem('token');
   
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
@@ -23,17 +23,14 @@ export class CartService {
   }
   
 
-  // Actualizar la cantidad de un artículo en el carrito
   updateItemQuantity(itemId: number, quantity: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/add`, { itemId, quantity });
   }
 
-  // Eliminar un artículo del carrito
   removeItemFromCart(itemId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${itemId}`);
   }
 
-  // Proceder al pago
   checkout(): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/checkout`, {});
   }

@@ -13,15 +13,15 @@ export class NavbarComponent {
   user: any = null;
   constructor(private authService: AuthService,private router: Router, private cdr: ChangeDetectorRef) {console.log("Estado inicial de user:", this.user);}
   ngOnInit(): void {
-    // Suscribirse al estado del usuario
+    
     this.authService.user.subscribe(user => {
-      this.user = user; // Actualiza el estado local del usuario cuando cambie
+      this.user = user; 
     });
   }
   logout() {
     this.user = null;
     
-    this.cdr.detectChanges(); // Forzar actualización de la vista
+    this.cdr.detectChanges();
     this.router.navigate(['/auth/login']);
   }
   redirectToAdd():void{
