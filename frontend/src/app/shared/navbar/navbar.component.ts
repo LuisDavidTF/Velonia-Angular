@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'app/services/auth/auth.service';
-import { CartService } from 'app/services/cart/cart.service';
+import { AuthModalService } from 'app/services/auth-modal/auth-modal.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -11,7 +11,7 @@ import { CartService } from 'app/services/cart/cart.service';
 })
 export class NavbarComponent {
   user: any = null;
-  constructor(private authService: AuthService,private router: Router, private cdr: ChangeDetectorRef) {console.log("Estado inicial de user:", this.user);}
+  constructor(private authService: AuthService,private router: Router, private cdr: ChangeDetectorRef,private authModal:AuthModalService) {console.log("Estado inicial de user:", this.user);}
   ngOnInit(): void {
     
     this.authService.user.subscribe(user => {
@@ -19,20 +19,20 @@ export class NavbarComponent {
     });
   }
   logout() {
-    this.user = null;
-    
-    this.cdr.detectChanges();
-    this.router.navigate(['/auth/login']);
+    this.authService.logout().subscribe(() => {
+      this.user = null;
+      this.cdr.detectChanges();
+    });
   }
   redirectToAdd():void{
-    this.router.navigate(['/product/add'])
+    this.router.navigate(['/products/add'])
   }
   redirectToLogin(): void {
-    this.router.navigate(['/auth/login']); 
+    this.authModal.openLogin(); 
   }
 
   redirectToRegister(): void {
-    this.router.navigate(['/auth/register']);
+    this.authModal.openRegister();
   }
   redirectToCart(): void {
     this.router.navigate(['/cart']);

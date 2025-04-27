@@ -1,4 +1,6 @@
 import { ProductDao } from '../dao/productDao.js';
+import fs from 'fs';
+import path from 'path';
 
 const productDao = new ProductDao();
 
@@ -94,18 +96,31 @@ export const productController = {
     try {
       const { imageUrl } = req.body;
       const product = await productDao.findById(req.params.id);
-
+  
       if (!product || product.seller_id !== req.user.id) {
         return res.status(403).json({ success: false, error: 'Unauthorized' });
       }
-
+  
       await productDao.deleteImage(req.params.id, imageUrl);
+  
+      const fileName = path.basename(imageUrl);
+      const filePath = path.join(process.cwd(),'public', 'uploads', fileName);
+  console.log(filePath);
+      try {
+        await fs.promises.access(filePath);
+        await fs.promises.unlink(filePath);
+        console.log(`Imagen eliminada del servidor: ${filePath}`);
+      } catch (fileError) {
+        console.warn(`La imagen no fue encontrada o no pudo ser eliminada: ${filePath}`);
+      }
+  
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, error: 'Failed to delete image' });
     }
-  },
+  }
+  ,
 
   async getVariants(req, res) {
     try {

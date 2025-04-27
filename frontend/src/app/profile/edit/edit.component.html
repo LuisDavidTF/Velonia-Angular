@@ -1,1 +1,59 @@
-<p>edit works!</p>
+<div class="container my-5">
+    <div class="form-container mx-auto" style="max-width: 600px;">
+      <h2 class="text-center mb-4">Editar Perfil</h2>
+  
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuario</label>
+          <input formControlName="username" type="text" class="form-control"  required />
+        </div>
+  
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo Electrónico</label>
+          <input formControlName="email" type="email" class="form-control" required />
+        </div>
+  
+        <div class="mb-3">
+          <label for="full_name" class="form-label">Nombre Completo</label>
+          <input formControlName="full_name" type="text" class="form-control" required />
+        </div>
+  
+        <div class="mb-3">
+          <label for="address" class="form-label">Dirección de Envío</label>
+          <textarea formControlName="address" class="form-control" rows="3"></textarea>
+        </div>
+  
+        <div class="mb-3">
+          <label for="current_password" class="form-label">Contraseña Actual</label>
+          <input formControlName="current_password" type="password" autocomplete="current-password" class="form-control"/>
+          <small class="text-muted">Requerida solo si cambia la contraseña</small>
+        </div>
+
+        <div class="mb-3">
+          <label for="new_password" class="form-label">Nueva Contraseña</label>
+          <input formControlName="new_password" type="password" autocomplete="new-password" class="form-control" [ngClass]="{'is-invalid': showPasswordError}" />
+          <small class="text-muted">Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo</small>
+          <div *ngIf="showPasswordError" class="invalid-feedback">
+            Contraseña no cumple los requisitos
+          </div>
+          <div *ngIf="form.get('new_password')?.value" class="password-requirements">
+            <ul>
+              <li [ngClass]="{ 'text-success': passwordValidations.length === 5, 'text-danger': passwordValidations.length < 5 }">8 o más caracteres</li>
+              <li [ngClass]="{ 'text-success': passwordValidations.includes('uppercase'), 'text-danger': !passwordValidations.includes('uppercase') }">Al menos una mayúscula</li>
+              <li [ngClass]="{ 'text-success': passwordValidations.includes('lowercase'), 'text-danger': !passwordValidations.includes('lowercase') }">Al menos una minúscula</li>
+              <li [ngClass]="{ 'text-success': passwordValidations.includes('number'), 'text-danger': !passwordValidations.includes('number') }">Al menos un número</li>
+              <li [ngClass]="{ 'text-success': passwordValidations.includes('symbol'), 'text-danger': !passwordValidations.includes('symbol') }">Al menos un símbolo</li>
+            </ul>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary w-100" 
+          [disabled]="!isFormValid() || (hasSensitiveChanges() && !form.get('current_password')?.value)">
+          Actualizar Perfil
+        </button>
+  
+        <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+      </form>
+    </div>
+  </div>

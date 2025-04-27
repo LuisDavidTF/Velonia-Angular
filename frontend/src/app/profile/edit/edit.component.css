@@ -1,0 +1,24 @@
+.password-requirements {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .password-requirements li {
+    font-size: 14px;
+    color: #dc3545;
+    transition: color 0.3s;
+  }
+  
+  .password-requirements li.text-success {
+    color: #28a745;
+  }
+  
+  .is-invalid {
+    border-color: #dc3545 !important;
+  }
+  
+  .invalid-feedback {
+    display: block;
+  }
+  

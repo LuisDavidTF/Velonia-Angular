@@ -1,0 +1,11 @@
+.nav-link {
+    cursor: pointer;
+    color: blue;
+  }
+  .text-success {
+    color: green;
+  }
+  .text-danger {
+    color: red;
+  }
+  

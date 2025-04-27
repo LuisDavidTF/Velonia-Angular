@@ -2,6 +2,12 @@
   <div class="form-container">
     <h2 class="text-center mb-4">Iniciar sesión en Lincar</h2>
 
+    <app-flash></app-flash>
+    <!-- 👇 Aquí se muestra error solo dentro del modal -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+      {{ errorMessage }}
+    </div>
+
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="mb-3">
         <label for="email" class="form-label">Correo electrónico</label>
@@ -15,7 +21,7 @@
     </form>
 
     <p class="text-center mt-3">
-      ¿No tienes una cuenta? <a routerLink="/auth/register">Regístrate aquí</a>
+      ¿No tienes una cuenta? <a class="nav-link" (click)="redirectToRegister()">Regístrate aquí</a>
     </p>
   </div>
 </div>

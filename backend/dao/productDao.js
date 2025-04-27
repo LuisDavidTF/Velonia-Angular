@@ -3,35 +3,56 @@ import { pool } from '../config/database.js';
 export class ProductDao {
   async findAll(category = null) {
     let query = `
-      SELECT p.*, pi.image_url, c.name as category_name, u.username as seller_name
+      SELECT 
+        p.id, p.name, p.description, p.price, p.category_id, p.seller_id,
+        GROUP_CONCAT(DISTINCT pi.image_url) AS images,
+        c.name AS category_name,
+        u.username AS seller_name
       FROM products p
-      LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = true
+      LEFT JOIN product_images pi ON p.id = pi.product_id
       JOIN categories c ON p.category_id = c.id
       JOIN users u ON p.seller_id = u.id
     `;
-    
+  
     if (category) {
-      query += ' WHERE c.name = ?';
+      query += ' WHERE c.name = ? GROUP BY p.id';
       const [rows] = await pool.execute(query, [category]);
-      return rows;
+      return rows.map(product => ({
+        ...product,
+        images: product.images ? product.images.split(',') : []
+      }));
     }
-    
+  
+    query += ' GROUP BY p.id';
     const [rows] = await pool.execute(query);
-    return rows;
+    return rows.map(product => ({
+      ...product,
+      images: product.images ? product.images.split(',') : []
+    }));
   }
+  
 
   async findByCategory(category) {
     const [rows] = await pool.execute(
-      `SELECT p.*, pi.image_url, u.username as seller_name
+      `SELECT 
+          p.id, p.name, p.description, p.price, p.category_id, p.seller_id,
+          GROUP_CONCAT(DISTINCT pi.image_url) AS images,
+          u.username AS seller_name
        FROM products p
-       LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = true
+       LEFT JOIN product_images pi ON p.id = pi.product_id
        JOIN categories c ON p.category_id = c.id
        JOIN users u ON p.seller_id = u.id
-       WHERE c.name = ?`,
+       WHERE c.name = ?
+       GROUP BY p.id`,
       [category]
     );
-    return rows;
+  
+    return rows.map(product => ({
+      ...product,
+      images: product.images ? product.images.split(',') : []
+    }));
   }
+  
 
   async findById(id) {
     const [rows] = await pool.execute(
@@ -165,13 +186,26 @@ export class ProductDao {
   }
 
   async findByUser(userId) {
-    const [rows] = await pool.execute(
-      `SELECT p.*, pi.image_url
-       FROM products p
-       LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = true
-       WHERE p.seller_id = ?`,
-      [userId]
-    );
-    return rows;
-  }
+  const [rows] = await pool.execute(
+    `SELECT 
+        p.id,
+        p.name,
+        p.description,
+        p.price,
+        p.category_id,
+        GROUP_CONCAT(DISTINCT pi.image_url) as images
+     FROM products p
+     LEFT JOIN product_images pi ON p.id = pi.product_id
+     WHERE p.seller_id = ?
+     GROUP BY p.id`,
+    [userId]
+  );
+
+  // Convertir el string de imágenes en array antes de devolverlo
+  return rows.map(product => ({
+    ...product,
+    images: product.images ? product.images.split(',') : []
+  }));
+}
+
 }

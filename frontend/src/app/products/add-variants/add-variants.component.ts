@@ -71,6 +71,7 @@ export class AddVariantsComponent implements OnInit {
     });
   }
   redirectToDetail(){
-    this.router.navigate(['/products', this.productId]);
+    console.log(this.productId);
+    this.router.navigate(['/product', this.productId]);
   }
 }

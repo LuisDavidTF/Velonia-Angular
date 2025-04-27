@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, JsonpInterceptor } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface LoginResponse {
   message: string;
@@ -17,18 +18,28 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = '/api/auth'; 
+  private baseUrl = '/api/auth';
   private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const user = JSON.parse(localStorage.getItem('user') || 'null');
-    this.userSubject.next(user);
+    const token = localStorage.getItem('token');
+
+    if (user && token) {
+      this.userSubject.next(user);
+    } else {
+      this.userSubject.next(null);
+    }
+
   }
 
   get user(): Observable<any> {
     return this.userSubject.asObservable();
   }
-
+  getCurrentUser() {
+    return this.userSubject.value;
+  }
+  
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
       tap((res) => {
@@ -48,13 +59,29 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {}).pipe(
       tap(() => {
-        localStorage.removeItem('user'); 
-        this.userSubject.next(null); 
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        this.userSubject.next(null);
+        const rutasPublicas = [
+
+          '/category',
+          '/product/'
+        ];
+
+        const rutaActual = this.router.url;
+        const estaEnRutaPublica = rutasPublicas.some(r => rutaActual.startsWith(r));
+
+        if (!estaEnRutaPublica) {
+          this.router.navigate(['/']);
+        }
       })
     );
   }
+
+
   isLoggedIn(): boolean {
-    return this.userSubject.value !== null;
+    return !!localStorage.getItem('token');
   }
+
 }
 
