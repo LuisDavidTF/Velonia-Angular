@@ -9,20 +9,24 @@ import { IndexComponent } from './cart/index/index.component';
 import { AddComponent } from './products/add/add.component';
 import { AddVariantsComponent } from './products/add-variants/add-variants.component';
 import { DetailComponent } from './products/detail/detail.component';
+import { IndexProfileComponent } from './profile/index/index.component';
+import { EditComponent } from './products/edit/edit.component';
+import { EditProfileComponent } from './profile/edit/edit.component';
+import { authGuard } from './auth.guard';
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'auth/login', component: LoginComponent },
-      { path: 'auth/register', component: RegisterComponent },
-      { path:'cart',component:IndexComponent},
-      { path:'product/add',component:AddComponent},
+      { path:'cart',component:IndexComponent, canActivate:[authGuard]},
+      { path:'products/add',component:AddComponent, canActivate:[authGuard]},
       { path:'product/:id',component:DetailComponent},
-      { path: 'products/:id/add-variants',component: AddVariantsComponent},
-      { path: 'category/:id', component: CategoryComponent }
-
+      { path: 'products/:id/add-variants',component: AddVariantsComponent, canActivate:[authGuard]},
+      { path: 'category/:id', component: CategoryComponent },
+      { path: 'profile', component:IndexProfileComponent, canActivate:[authGuard]},
+      { path: 'products/:id/edit',component:EditComponent, canActivate:[authGuard]},
+      { path: 'profile/edit', component:EditProfileComponent, canActivate:[authGuard]}
     ]
   },
   { path: '**', redirectTo: '' }

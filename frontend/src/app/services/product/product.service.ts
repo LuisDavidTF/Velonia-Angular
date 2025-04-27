@@ -45,7 +45,7 @@ export class ProductService {
     });
   }
   updateProduct(productId: string, formData: FormData) {
-    return this.http.post(`/api/products/${productId}/edit`, formData);
+    return this.http.put(`${this.apiUrl}/${productId}`, formData);
   }
   
   deleteProduct(productId: string) {
@@ -53,7 +53,9 @@ export class ProductService {
   }
   
   deleteImage(productId: string, imageUrl: string) {
-    return this.http.post(`/api/products/${productId}/images/delete`, { imageUrl });
+    console.log(imageUrl);
+    return this.http.delete(`/api/products/${productId}/images/delete`, {body:{ imageUrl }});
+    
   }
   
   updateVariant(productId: string, variantId: string, data: any) {

@@ -36,7 +36,7 @@ router.delete('/:id', verifyToken, productController.deleteProduct);
 router.get('/user/products', verifyToken, productController.getProductsByUser);
 
 // Manejo de imágenes
-router.delete('/:id/image', verifyToken, productController.deleteImage);
+router.delete('/:id/images/delete', verifyToken, productController.deleteImage);
 
 // Variantes
 router.get('/:id/variants', productController.getVariants);

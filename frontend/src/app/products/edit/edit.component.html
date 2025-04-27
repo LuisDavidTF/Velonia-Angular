@@ -1,65 +1,114 @@
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-    <div class="mb-3">
-      <label for="name">Nombre del Producto</label>
-      <input id="name" type="text" formControlName="name" class="form-control" />
-    </div>
-  
-    <div class="mb-3">
-      <label for="category_id">Categoría</label>
-      <select id="category_id" formControlName="category_id" class="form-select">
-        <option value="">Seleccionar Categoría</option>
-        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-      </select>
-    </div>
-  
-    <div class="mb-3">
-      <label for="description">Descripción</label>
-      <textarea id="description" formControlName="description" rows="3" class="form-control"></textarea>
-    </div>
-  
-    <div class="mb-3">
-      <label for="price">Precio</label>
-      <input id="price" type="number" formControlName="price" class="form-control" step="0.01" />
-    </div>
-  
-    <!-- Imágenes actuales -->
-    <div *ngIf="product.images?.length">
-      <div *ngFor="let image of product.images; let i = index" class="position-relative">
-        <img [src]="image" class="img-fluid rounded mb-2" />
-        <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" type="button" (click)="deleteImage(image)">×</button>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Editar Producto</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="productForm" (ngSubmit)="onSubmitForm()">
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" rows="3" formControlName="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Categoría</label>
+              <select class="form-select" formControlName="category_id">
+                <option value="">Seleccionar categoría</option>
+                <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" formControlName="price" min="0">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Imágenes actuales</label>
+              <div *ngIf="product?.images?.length > 0" class="d-flex flex-wrap gap-3">
+                <div *ngFor="let img of images" class="position-relative">
+                  <img [src]="img" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                  <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                          (click)="deleteImage(img)">✕</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Agregar nuevas imágenes</label>
+              <input type="file" multiple (change)="onFileChange($event)" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="button" class="btn btn-danger float-end" (click)="confirmDelete()">Eliminar Producto</button>
+          </form>
+
+          <hr class="my-4">
+
+          <!-- Formulario de variante -->
+          <h3 class="mb-3">Agregar Nueva Variante</h3>
+          <form (ngSubmit)="onVariantSubmit()">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-3">
+                <label class="form-label">Talla</label>
+                <select class="form-select" [(ngModel)]="variant.size" name="size" required>
+                  <option value="">Seleccionar</option>
+                  <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Color</label>
+                <input type="text" class="form-control" [(ngModel)]="variant.color" name="color" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Inventario</label>
+                <input type="number" class="form-control" [(ngModel)]="variant.stock" name="stock" min="0" required>
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-success w-100">Agregar Variante</button>
+              </div>
+            </div>
+          </form>
+
+          <hr class="my-4">
+
+          <!-- Tabla de variantes -->
+          <h3 class="mb-3">Variantes Actuales</h3>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>Talla</th>
+                  <th>Color</th>
+                  <th>Inventario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of variants">
+                  <td>{{ v.size }}</td>
+                  <td>{{ v.color }}</td>
+                  <td>{{ v.stock }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteVariant(v.id)">Eliminar</button>
+                  </td>
+                </tr>
+                <tr *ngIf="variants.length === 0">
+                  <td colspan="4" class="text-center">No hay variantes registradas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
     </div>
-  
-    <!-- Nuevas imágenes -->
-    <div class="mb-3">
-      <label for="images">Agregar nuevas imágenes</label>
-      <input id="images" type="file" (change)="onFileChange($event)" multiple class="form-control" />
-    </div>
-  
-    <!-- Variantes -->
-    <div formArrayName="variants">
-      <div *ngFor="let variant of variants.controls; let i = index" [formGroupName]="i" class="row mb-2">
-        <div class="col-md-3">
-          <select formControlName="size" class="form-select">
-            <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <input type="text" formControlName="color" class="form-control" />
-        </div>
-        <div class="col-md-3">
-          <input type="number" formControlName="stock" class="form-control" />
-        </div>
-        <div class="col-md-3">
-          <button type="button" class="btn btn-danger" (click)="deleteVariant(i)">Eliminar</button>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Botones -->
-    <div class="d-flex justify-content-between mt-4">
-      <button type="submit" class="btn btn-primary">Actualizar Producto</button>
-      <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar Producto</button>
-    </div>
-  </form>
-  
+  </div>
+</div>

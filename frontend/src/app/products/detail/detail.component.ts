@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthModalService } from 'app/services/auth-modal/auth-modal.service';
 import { AuthService } from 'app/services/auth/auth.service';
 import { ProductService } from 'app/services/product/product.service';
 
@@ -25,7 +26,8 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
     private authService:AuthService,
-    private router:Router
+    private router:Router,
+    private authModal:AuthModalService
   ) {}
 
   ngOnInit(): void {
@@ -84,8 +86,7 @@ export class DetailComponent implements OnInit {
 
   addToCart(): void {
     if (!this.authService.isLoggedIn()) {
-      alert('Debes iniciar sesión para añadir productos al carrito');
-      this.router.navigate(['/login']);
+      this.authModal.openLogin();
       return;
     }
   

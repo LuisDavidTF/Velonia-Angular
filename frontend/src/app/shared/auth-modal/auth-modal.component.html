@@ -1,0 +1,14 @@
+<div class="modal-overlay" *ngIf="visible$ | async" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="close()">✖</button>
+  
+      <ng-container *ngIf="showRegister$ | async; else loginTemplate">
+        <app-register (registerSuccess)="close()"></app-register>
+      </ng-container>
+  
+      <ng-template #loginTemplate>
+        <app-login (loginSuccess)="close()"></app-login>
+      </ng-template>
+    </div>
+  </div>
+  

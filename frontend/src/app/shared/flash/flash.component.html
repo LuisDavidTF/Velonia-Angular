@@ -1,1 +1,14 @@
-<p>flash works!</p>
+<div class="container mt-3" *ngIf="flashAlertService.errorMessage$ | async as errorMessage">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" aria-label="Cerrar" (click)="flashAlertService.clearError()"></button>
+    </div>
+  </div>
+  
+  <div class="container mt-3" *ngIf="flashAlertService.successMessage$ | async as successMessage">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" aria-label="Cerrar" (click)="flashAlertService.clearSuccess()"></button>
+    </div>
+  </div>
+  
