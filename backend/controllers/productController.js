@@ -25,7 +25,18 @@ export const productController = {
       res.status(500).json({ success: false, error: 'Failed to load products' });
     }
   },
-
+  
+  async getSomeProducts(req, res) {
+    try {
+      const limit = parseInt(req.query.limit) || 8;
+      const products = await productDao.findSome(limit);
+      res.status(200).json({ success: true, data: products });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, error: 'Failed to load products' });
+    }
+  }
+  ,
   async getProduct(req, res) {
     try {
       const product = await productDao.findById(req.params.id);
@@ -96,16 +107,16 @@ export const productController = {
     try {
       const { imageUrl } = req.body;
       const product = await productDao.findById(req.params.id);
-  
+
       if (!product || product.seller_id !== req.user.id) {
         return res.status(403).json({ success: false, error: 'Unauthorized' });
       }
-  
+
       await productDao.deleteImage(req.params.id, imageUrl);
-  
+
       const fileName = path.basename(imageUrl);
-      const filePath = path.join(process.cwd(),'public', 'uploads', fileName);
-  console.log(filePath);
+      const filePath = path.join(process.cwd(), 'public', 'uploads', fileName);
+      console.log(filePath);
       try {
         await fs.promises.access(filePath);
         await fs.promises.unlink(filePath);
@@ -113,7 +124,7 @@ export const productController = {
       } catch (fileError) {
         console.warn(`La imagen no fue encontrada o no pudo ser eliminada: ${filePath}`);
       }
-  
+
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

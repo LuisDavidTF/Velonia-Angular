@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule} from '@angular/common';
+import { Component,OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { ProductService } from 'app/services/product/product.service';
 @Component({
   selector: 'app-home',
   imports: [CommonModule,RouterModule],
@@ -17,8 +17,33 @@ export class HomeComponent {
   ];
 
   readonly baseUrl = "http://localhost:3000/uploads/";
-  products = [
-    { id: 1, name: 'Sueter', price: 0.03,  photo: `${this.baseUrl}sueter.jpg` },
-    { id: 2, name: 'Blusa', price: 1200.00, photo: `${this.baseUrl}blusa.jpg` }
-  ];
+  products: any[] = [];
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.loadSomeProducts();
+  }
+
+  loadSomeProducts() {
+    this.productService.getSomeProducts(8).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.products = res.data.map((p: any) => ({
+          ...p,
+          photo: p.images[0] ? this.baseUrl + p.images[0] : 'default-image.jpg'
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
+      }
+    });
+  }
+  scrollToCategories() {
+    const categoriesSection = document.getElementById('categories');
+    if (categoriesSection) {
+      categoriesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  
 }

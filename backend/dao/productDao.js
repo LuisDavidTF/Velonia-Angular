@@ -13,7 +13,7 @@ export class ProductDao {
       JOIN categories c ON p.category_id = c.id
       JOIN users u ON p.seller_id = u.id
     `;
-  
+
     if (category) {
       query += ' WHERE c.name = ? GROUP BY p.id';
       const [rows] = await pool.execute(query, [category]);
@@ -22,7 +22,7 @@ export class ProductDao {
         images: product.images ? product.images.split(',') : []
       }));
     }
-  
+
     query += ' GROUP BY p.id';
     const [rows] = await pool.execute(query);
     return rows.map(product => ({
@@ -30,7 +30,7 @@ export class ProductDao {
       images: product.images ? product.images.split(',') : []
     }));
   }
-  
+
 
   async findByCategory(category) {
     const [rows] = await pool.execute(
@@ -46,13 +46,36 @@ export class ProductDao {
        GROUP BY p.id`,
       [category]
     );
-  
+
     return rows.map(product => ({
       ...product,
       images: product.images ? product.images.split(',') : []
     }));
   }
-  
+
+
+  async findSome(limit = 8) {
+    const [rows] = await pool.execute(
+      `SELECT 
+      p.id, p.name, p.description, p.price, p.category_id, p.seller_id,
+      GROUP_CONCAT(DISTINCT pi.image_url) AS images,
+      u.username AS seller_name
+     FROM products p
+     LEFT JOIN product_images pi ON p.id = pi.product_id
+     JOIN categories c ON p.category_id = c.id
+     JOIN users u ON p.seller_id = u.id
+     GROUP BY p.id
+     ORDER BY p.created_at DESC
+     LIMIT ?`,
+      [limit]
+    );
+
+    return rows.map(product => ({
+      ...product,
+      images: product.images ? product.images.split(',') : []
+    }));
+  }
+
 
   async findById(id) {
     const [rows] = await pool.execute(
@@ -79,7 +102,7 @@ export class ProductDao {
     );
     return rows;
   }
-  
+
   async getAvailableColors(productId) {
     const [rows] = await pool.execute(
       'SELECT DISTINCT color FROM product_variants WHERE product_id = ?',
@@ -95,8 +118,8 @@ export class ProductDao {
     );
     return rows; // Devolverá un arreglo con todas las combinaciones disponibles
   }
-  
-  
+
+
 
   async create(productData) {
     const { name, description, price, category_id, seller_id } = productData;
@@ -144,7 +167,7 @@ export class ProductDao {
       [size, color, stock, variantId]
     );
   }
-  
+
   async deleteVariant(variantId) {
     await pool.execute('DELETE FROM product_variants WHERE id = ?', [variantId]);
   }
@@ -153,7 +176,7 @@ export class ProductDao {
     const connection = await pool.getConnection();
     try {
       await connection.beginTransaction();
-  
+
       // Verificar si el producto está en un carrito
       const [cartItems] = await connection.execute(
         `SELECT COUNT(*) AS count
@@ -162,20 +185,20 @@ export class ProductDao {
          WHERE pv.product_id = ?`,
         [id]
       );
-  
+
       if (cartItems[0].count > 0) {
         throw new Error('Cannot delete product: it is in a user\'s cart');
       }
-  
+
       // Eliminar variantes asociadas al producto
       await connection.execute('DELETE FROM product_variants WHERE product_id = ?', [id]);
-  
+
       // Eliminar imágenes asociadas al producto
       await connection.execute('DELETE FROM product_images WHERE product_id = ?', [id]);
-  
+
       // Eliminar el producto
       await connection.execute('DELETE FROM products WHERE id = ?', [id]);
-  
+
       await connection.commit();
     } catch (error) {
       await connection.rollback();
@@ -186,8 +209,8 @@ export class ProductDao {
   }
 
   async findByUser(userId) {
-  const [rows] = await pool.execute(
-    `SELECT 
+    const [rows] = await pool.execute(
+      `SELECT 
         p.id,
         p.name,
         p.description,
@@ -198,14 +221,14 @@ export class ProductDao {
      LEFT JOIN product_images pi ON p.id = pi.product_id
      WHERE p.seller_id = ?
      GROUP BY p.id`,
-    [userId]
-  );
+      [userId]
+    );
 
-  // Convertir el string de imágenes en array antes de devolverlo
-  return rows.map(product => ({
-    ...product,
-    images: product.images ? product.images.split(',') : []
-  }));
-}
+    // Convertir el string de imágenes en array antes de devolverlo
+    return rows.map(product => ({
+      ...product,
+      images: product.images ? product.images.split(',') : []
+    }));
+  }
 
 }

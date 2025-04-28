@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = '/api/products'; 
+  private apiUrl = '/api/products';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addProduct(formData: FormData): Observable<any> {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
@@ -47,26 +47,33 @@ export class ProductService {
   updateProduct(productId: string, formData: FormData) {
     return this.http.put(`${this.apiUrl}/${productId}`, formData);
   }
-  
+
   deleteProduct(productId: string) {
     return this.http.post(`/api/products/${productId}/delete`, {});
   }
-  
+
   deleteImage(productId: string, imageUrl: string) {
     console.log(imageUrl);
-    return this.http.delete(`/api/products/${productId}/images/delete`, {body:{ imageUrl }});
-    
+    return this.http.delete(`/api/products/${productId}/images/delete`, { body: { imageUrl } });
+
   }
-  
+
   updateVariant(productId: string, variantId: string, data: any) {
     return this.http.put(`/api/products/${productId}/variants/${variantId}`, data);
   }
-  
+
   deleteVariant(productId: string, variantId: string) {
     return this.http.delete(`/api/products/${productId}/variants/${variantId}`);
   }
-  getByCategory(categoryId: string):Observable<any> {
+  getByCategory(categoryId: string): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/category/${categoryId}`);
   }
   
+  getSomeProducts(limit: number) {
+    return this.http.get<any>(`${this.apiUrl}/some/${limit}`);
+  }
+  
+  
+
+
 }
