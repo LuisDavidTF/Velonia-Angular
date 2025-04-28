@@ -28,6 +28,7 @@ const upload = multer({ storage });
 router.get('/home', productController.getHome);
 router.get('/category/:category', productController.getProductsByCategory);
 router.get('/:id', productController.getProduct);
+router.get('/some/:limit', productController.getSomeProducts);
 
 // Rutas protegidas
 router.post('/', verifyToken, upload.array('images'), productController.addProduct);
