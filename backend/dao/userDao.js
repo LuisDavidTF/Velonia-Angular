@@ -20,11 +20,12 @@ export class UserDao {
 
   async findById(id) {
     const [rows] = await pool.execute(
-      'SELECT id, username, email, full_name, address FROM users WHERE id = ?',
+      'SELECT id, username, email, full_name, address, password FROM users WHERE id = ?',
       [id]
     );
     return rows[0];
   }
+
 
   async update(id, userData) {
     const { username, email, full_name, address } = userData;
