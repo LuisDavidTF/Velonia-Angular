@@ -37,6 +37,14 @@ export const profileController = {
 
       // Verifica y cambia contraseña si fue solicitada
       if (new_password) {
+        if (!current_password) {
+          return res.status(400).json({ error: 'Current password is required to set a new one' });
+        }
+
+        if (!user || !user.password) {
+          return res.status(400).json({ error: 'User not found or missing password' });
+        }
+
         const isValidPassword = await bcrypt.compare(current_password, user.password);
         if (!isValidPassword) {
           return res.status(400).json({ error: 'Current password is incorrect' });
@@ -45,6 +53,7 @@ export const profileController = {
         const hashedPassword = await bcrypt.hash(new_password, 10);
         await userDao.updatePassword(userId, hashedPassword);
       }
+
 
       await userDao.update(userId, {
         username,
