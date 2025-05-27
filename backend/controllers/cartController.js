@@ -13,7 +13,7 @@ export const cartController = {
       console.log('Usuario autenticado con ID:', userId);
       const cartItems = await cartDao.getCartItems(userId);
       const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      
+
       res.status(200).json({ cartItems, total });
     } catch (error) {
       console.error(error);
@@ -75,16 +75,15 @@ export const cartController = {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: item.name,
-              images: [item.image_url]
+              name: item.name
             },
             unit_amount: Math.round(item.price * 100)
           },
           quantity: item.quantity
         })),
         mode: 'payment',
-        success_url: `${req.protocol}://${req.get('host')}/api/cart/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.protocol}://${req.get('host')}/api/cart/cancel`
+        success_url: `${process.env.FRONTEND_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.FRONTEND_URL}/checkout-cancel`
       });
 
       res.status(200).json({ id: session.id });
@@ -92,5 +91,19 @@ export const cartController = {
       console.error(error);
       res.status(500).json({ error: 'Failed to create checkout session' });
     }
+  },
+
+  async clearCart(req, res) { 
+  const userId = req.user.id;
+  console.log(userId); // Verifica que se imprime correctamente
+
+  try {
+    await cartDao.clearCartByUserId(userId);
+    res.status(200).json({ message: 'Carrito vaciado exitosamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al vaciar el carrito' });
   }
+}
+
 };

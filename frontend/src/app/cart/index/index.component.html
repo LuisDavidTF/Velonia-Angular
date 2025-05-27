@@ -20,7 +20,8 @@
             ${{ item.price }}
           </div>
           <div class="col-md-2">
-            <input type="number" class="form-control quantity-input" [(ngModel)]="item.quantity" min="1" max="10" (change)="updateQuantity(item)">
+            <input type="number" class="form-control quantity-input" [(ngModel)]="item.quantity" min="1" max="10"
+              (change)="updateQuantity(item)">
           </div>
           <div class="col-md-2">
             <button class="btn btn-danger btn-sm" (click)="confirmRemoveCartItem(item.id)">Eliminar</button>
@@ -45,7 +46,7 @@
             <strong>Total</strong>
             <strong>${{ total.toFixed(2) }}</strong>
           </div>
-          <button id="checkout-button" class="btn btn-primary w-100" >Proceder al Pago</button>
+          <button id="checkout-button" class="btn btn-primary w-100" (click)="onCheckout()">Proceder al Pago</button>
         </div>
       </div>
     </div>
