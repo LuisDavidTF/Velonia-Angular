@@ -14,7 +14,7 @@ export class CartDao {
   }
 
   async addToCart(userId, variantId, quantity) {
-    console.log('par',{userId,variantId,quantity});
+    console.log('par', { userId, variantId, quantity });
     await pool.execute('CALL sp_add_to_cart(?, ?, ?)', [userId, variantId, quantity]);
   }
 
@@ -32,11 +32,15 @@ export class CartDao {
     );
     return rows[0];
   }
-  
+
   async removeItem(cartItemId) {
     await pool.execute('DELETE FROM cart_items WHERE id = ?', [cartItemId]);
   }
   
+  async clearCartByUserId(userId) {
+    await pool.execute('DELETE FROM cart_items WHERE user_id = ?', [userId]);
+  };
+
 
   async getProductVariant(productId, size, color) {
     const [rows] = await pool.execute(`
@@ -44,9 +48,9 @@ export class CartDao {
       FROM product_variants
       WHERE product_id = ? AND size = ? AND color = ?
     `, [productId, size, color]);
-    
+
     return rows;
   }
-  
-  
+
+
 }

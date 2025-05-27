@@ -13,20 +13,24 @@ import { IndexProfileComponent } from './profile/index/index.component';
 import { EditComponent } from './products/edit/edit.component';
 import { EditProfileComponent } from './profile/edit/edit.component';
 import { authGuard } from './auth.guard';
+import { CheckoutSuccessComponent } from './checkout-success/checkout-success.component';
+import { CheckoutCancelComponent } from './checkout-cancel/checkout-cancel.component';
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path:'cart',component:IndexComponent, canActivate:[authGuard]},
-      { path:'products/add',component:AddComponent, canActivate:[authGuard]},
-      { path:'product/:id',component:DetailComponent},
-      { path: 'products/:id/add-variants',component: AddVariantsComponent, canActivate:[authGuard]},
+      { path: 'cart', component: IndexComponent, canActivate: [authGuard] },
+      { path: 'products/add', component: AddComponent, canActivate: [authGuard] },
+      { path: 'product/:id', component: DetailComponent },
+      { path: 'products/:id/add-variants', component: AddVariantsComponent, canActivate: [authGuard] },
       { path: 'category/:id', component: CategoryComponent },
-      { path: 'profile', component:IndexProfileComponent, canActivate:[authGuard]},
-      { path: 'products/:id/edit',component:EditComponent, canActivate:[authGuard]},
-      { path: 'profile/edit', component:EditProfileComponent, canActivate:[authGuard]}
+      { path: 'profile', component: IndexProfileComponent, canActivate: [authGuard] },
+      { path: 'products/:id/edit', component: EditComponent, canActivate: [authGuard] },
+      { path: 'profile/edit', component: EditProfileComponent, canActivate: [authGuard] },
+      { path: 'checkout-success', component: CheckoutSuccessComponent },
+      { path: 'checkout-cancel', component: CheckoutCancelComponent },
     ]
   },
   { path: '**', redirectTo: '' }
