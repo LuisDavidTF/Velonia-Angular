@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VeloniaAngular - Documentation / Documentación</title>
+<title>VeloniaAngular - Documentation</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -14,7 +14,7 @@
     --light-color: #FAFAFA;
     --color-letter: #6c757d;
     --white: #fff;
-    --code-bg: #FFF5E0; /* fondo más suave para código */
+    --code-bg: #FFF5E0; /* soft background for code blocks */
     --note-bg: #FAEDCD;
   }
 
@@ -27,7 +27,7 @@
   /* Hero */
   .hero {
     background: linear-gradient(rgba(212,163,115,0.3), rgba(212,163,115,0.3)),
-                url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1920&q=80');
+                url('https://via.placeholder.com/1200x600?text=VeloniaAngular+Preview');
     background-size: cover;
     background-position: center;
     color: var(--white);
@@ -37,13 +37,13 @@
   .hero h1 { font-size: 3rem; font-weight: bold; }
   .hero p { font-size: 1.2rem; margin-top: 1rem; }
 
-  /* Secciones */
+  /* Sections */
   section { padding: 60px 15px; }
 
-  /* Títulos */
+  /* Titles */
   h2 { color: var(--color-letter); margin-bottom: 2rem; text-align: center; }
 
-  /* Tarjetas */
+  /* Cards */
   .card-style {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -54,27 +54,35 @@
   }
   .card-style:hover { transform: translateY(-5px); }
 
-  /* Badges/Tecnologías */
+  /* Technology Cards */
   .tech-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
   .tech-card {
     width: 150px;
     height: 100px;
     border-radius: 10px;
-    background: var(--primary-color);
     color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     cursor: pointer;
     text-decoration: none;
   }
-  .tech-card:hover { transform: translateY(-5px); background-color: var(--secondary-color); }
+  .tech-card:hover { transform: translateY(-5px); opacity: 0.85; }
   .tech-card i { font-size: 2rem; margin-bottom: 0.5rem; }
 
-  /* Código con botón copiar */
+  .angular { background-color: #DD0031; }
+  .node { background-color: #339933; }
+  .express { background-color: #000000; }
+  .mysql { background-color: #4479A1; }
+  .stripe { background-color: #6772E5; }
+  .jwt { background-color: #000000; }
+  .tailwind { background-color: #38B2AC; }
+  .bootstrap { background-color: #7952B3; }
+
+  /* Code blocks */
   pre {
     background-color: var(--code-bg);
     padding: 1rem;
@@ -98,7 +106,7 @@
   }
   .copy-btn:hover { background-color: var(--secondary-color); }
 
-  /* Nota */
+  /* Note */
   .note {
     background-color: var(--note-bg);
     padding: 1rem;
@@ -125,64 +133,63 @@
   <!-- Hero -->
   <div class="hero">
     <h1>VeloniaAngular</h1>
-    <p>Gestión de productos, usuarios y pagos / Product, user, and payment management</p>
+    <p>Product, user and payment management application</p>
   </div>
 
-  <!-- Tecnologías -->
+  <!-- Technologies -->
   <section>
-    <h2>Tecnologías / Technologies</h2>
+    <h2>Technologies Used</h2>
     <div class="tech-cards">
-      <a href="https://angular.io/" target="_blank" class="tech-card"><i class="fab fa-angular"></i>Angular</a>
-      <a href="https://nodejs.org/" target="_blank" class="tech-card"><i class="fab fa-node"></i>Node.js</a>
-      <a href="https://expressjs.com/" target="_blank" class="tech-card"><i class="fas fa-server"></i>Express</a>
-      <a href="https://www.mysql.com/" target="_blank" class="tech-card"><i class="fas fa-database"></i>MySQL</a>
-      <a href="https://stripe.com/docs" target="_blank" class="tech-card"><i class="fab fa-stripe"></i>Stripe</a>
-      <a href="https://jwt.io/" target="_blank" class="tech-card"><i class="fas fa-key"></i>JWT</a>
-      <a href="https://tailwindcss.com/" target="_blank" class="tech-card"><i class="fas fa-paint-brush"></i>Tailwind</a>
-      <a href="https://getbootstrap.com/" target="_blank" class="tech-card"><i class="fab fa-bootstrap"></i>Bootstrap</a>
+      <a href="https://angular.io/" target="_blank" class="tech-card angular"><i class="fab fa-angular"></i>Angular</a>
+      <a href="https://nodejs.org/" target="_blank" class="tech-card node"><i class="fab fa-node"></i>Node.js</a>
+      <a href="https://expressjs.com/" target="_blank" class="tech-card express"><i class="fas fa-server"></i>Express</a>
+      <a href="https://www.mysql.com/" target="_blank" class="tech-card mysql"><i class="fas fa-database"></i>MySQL</a>
+      <a href="https://stripe.com/docs" target="_blank" class="tech-card stripe"><i class="fab fa-stripe"></i>Stripe</a>
+      <a href="https://jwt.io/" target="_blank" class="tech-card jwt"><i class="fas fa-key"></i>JWT</a>
+      <a href="https://tailwindcss.com/" target="_blank" class="tech-card tailwind"><i class="fas fa-paint-brush"></i>Tailwind</a>
+      <a href="https://getbootstrap.com/" target="_blank" class="tech-card bootstrap"><i class="fab fa-bootstrap"></i>Bootstrap</a>
     </div>
   </section>
 
-  <!-- Descripción -->
+  <!-- Description -->
   <section>
-    <h2>Descripción / Description</h2>
+    <h2>Description</h2>
     <div class="card-style">
-      <p><strong>VeloniaAngular</strong> es una aplicación web desarrollada con <strong>Angular</strong> en el frontend y <strong>Node.js + Express</strong> en el backend, usando <strong>MySQL</strong> como base de datos.</p>
-      <p>Permite gestionar productos, variantes, usuarios y realizar pagos seguros con <strong>Stripe</strong>. Su diseño combina <strong>Bootstrap</strong> y <strong>TailwindCSS</strong>.</p>
-      <p>VeloniaAngular is a web application built with Angular frontend and Node.js + Express backend using MySQL. It manages products, variants, users, and secure payments with Stripe, styled with Bootstrap and TailwindCSS.</p>
+      <p><strong>VeloniaAngular</strong> is a web application built with <strong>Angular</strong> frontend and <strong>Node.js + Express</strong> backend using <strong>MySQL</strong> database.</p>
+      <p>It manages products, variants, users, and secure payments with <strong>Stripe</strong>. The UI is designed with <strong>Bootstrap</strong> and <strong>TailwindCSS</strong> for a clean, responsive experience.</p>
     </div>
   </section>
 
-  <!-- Instalación -->
+  <!-- Installation -->
   <section>
-    <h2>Instalación / Installation</h2>
+    <h2>Installation</h2>
     <div class="card-style">
       <div class="note">
-        Antes de iniciar / Before starting: importa la base de datos usando MySQL (por ejemplo, XAMPP o cualquier administrador de MySQL) desde <code>backend/database/schema.sql</code>.
+        Before starting: import the database using MySQL (e.g., XAMPP or any MySQL client) from <code>backend/database/schema.sql</code>.
       </div>
       <ol>
-        <li>Clona el repositorio / Clone repository:
+        <li>Clone the repository:
           <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>git clone https://github.com/TU-USUARIO/VeloniaAngular.git</pre>
         </li>
-        <li>Instala dependencias / Install dependencies:
+        <li>Install dependencies:
           <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>cd VeloniaAngular
 npm install</pre>
           <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>cd backend
 npm install</pre>
         </li>
-        <li>Configura variables de entorno / Configure environment variables in <code>backend/.env</code>:
+        <li>Configure environment variables in <code>backend/.env</code>:
           <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=tu_password
+DB_PASSWORD=your_password
 DB_NAME=velonia
-JWT_SECRET=tu_jwt_secret
-STRIPE_SECRET_KEY=tu_stripe_key
+JWT_SECRET=your_jwt_secret
+STRIPE_SECRET_KEY=your_stripe_key
 PORT=3000</pre>
         </li>
-        <li>Inicia el proyecto / Start project:
+        <li>Start the project:
           <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>cd backend
 npm start
-# En otra terminal / In another terminal:
+# In another terminal:
 ng serve</pre>
         </li>
       </ol>
@@ -191,7 +198,7 @@ ng serve</pre>
 
   <!-- Developer -->
   <section>
-    <h2>Developer / Desarrollador</h2>
+    <h2>Developer</h2>
     <div class="developer card-style">
       <p><strong>Luis David Trejo Fuentes</strong></p>
       <p>LinkedIn: <a href="https://www.linkedin.com/in/luis-david-trejo-fuentes/" target="_blank">https://www.linkedin.com/in/luis-david-trejo-fuentes/</a></p>
@@ -200,7 +207,7 @@ ng serve</pre>
 
 <script>
   function copyCode(button) {
-    const code = button.parentElement.innerText.replace('Copy', '');
+    const code = button.parentElement.innerText.replace('Copy','');
     navigator.clipboard.writeText(code).then(() => {
       button.innerText = 'Copied!';
       setTimeout(() => button.innerText = 'Copy', 1500);
