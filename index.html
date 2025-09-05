@@ -143,7 +143,7 @@ footer i:hover {
 </style>
 </head>
 <body>
-
+  <div id="navbar-placeholder"></div>
   <!-- Hero -->
   <div class="hero">
     <h1>VeloniaAngular</h1>
@@ -243,6 +243,27 @@ ng serve</pre>
       setTimeout(() => button.innerText = 'Copy', 1500);
     });
   }
+</script>
+<script>
+  fetch("https://luisdavidtf.github.io/Portfolio/navbar-shared")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar-placeholder").innerHTML = data;
+
+      const navbar = document.querySelector(".global-navbar");
+      const hero = document.querySelector(".hero");
+
+      if(hero && navbar){
+        const heroColor = window.getComputedStyle(hero).backgroundColor;
+        navbar.style.backgroundColor = heroColor;
+      }
+
+    
+      const logo = document.querySelector(".navbar-logo");
+      if(logo){
+        logo.style.color = "#fff"; // porque tu hero tiene texto blanco
+    }  
+  });
 </script>
 </body>
 </html>
