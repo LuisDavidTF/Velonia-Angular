@@ -8,7 +8,7 @@ import { ProductService } from 'app/services/product/product.service';
 
 @Component({
   selector: 'app-detail',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css'
 })
@@ -25,10 +25,10 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private authService:AuthService,
-    private router:Router,
-    private authModal:AuthModalService
-  ) {}
+    private authService: AuthService,
+    private router: Router,
+    private authModal: AuthModalService
+  ) { }
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id')!;
@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit {
     this.productService.getProduct(this.productId).subscribe({
       next: (res) => {
         this.product = res.data.product;
-        console.log('Producto cargado:', this.product,this.productId);
+        console.log('Producto cargado:', this.product, this.productId);
         this.images = this.product.images ? this.product.images.split(',') : [];
       },
       error: (err) => console.error('Error fetching product:', err),
@@ -52,10 +52,10 @@ export class DetailComponent implements OnInit {
       next: (res: any) => {
         console.log('Respuesta del backend:', res);
         if (Array.isArray(res.data)) {
-          this.variants = res.data; 
+          this.variants = res.data;
           this.updateSizeColorOptions();
         } else {
-          this.variants = []; 
+          this.variants = [];
           console.warn('No se encontraron variantes o el formato es incorrecto');
         }
       },
@@ -81,7 +81,7 @@ export class DetailComponent implements OnInit {
   }
 
   updateSizeColorOptions(): void {
-    
+
   }
 
   addToCart(): void {
@@ -89,19 +89,19 @@ export class DetailComponent implements OnInit {
       this.authModal.openLogin();
       return;
     }
-  
+
     if (!this.selectedSize || !this.selectedColor || this.quantity < 1) {
       alert('Por favor, selecciona talla, color y cantidad válida.');
       return;
     }
-  
+
     const cartData = {
       productId: this.productId,
       size: this.selectedSize,
       color: this.selectedColor,
       quantity: this.quantity,
     };
-  
+
     this.productService.addToCart(cartData).subscribe({
       next: (res) => {
         console.log('Producto añadido al carrito:', res);
@@ -113,6 +113,13 @@ export class DetailComponent implements OnInit {
       }
     });
   }
-  
-  
+
+
+  increaseQuantity() {
+    if (this.quantity < 10) this.quantity++;
+  }
+
+  decreaseQuantity() {
+    if (this.quantity > 1) this.quantity--;
+  }
 }

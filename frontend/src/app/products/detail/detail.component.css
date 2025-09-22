@@ -1,0 +1,10 @@
+.btnSize{
+    border: solid 1px #3e3e3e;
+
+}
+.btnSize:hover,
+.btnSize.active {
+  background-color: #B76E79;
+  color: white;
+  border-color: #B76E79;
+}

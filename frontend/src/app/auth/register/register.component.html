@@ -1,6 +1,5 @@
-<div class="container my-5">
-  <div class="form-container">
-    <h2 class="text-center mb-4">Crear una cuenta</h2>
+<div class="container">
+    <h2 class="text-center mb-4 fs-3">Crear una cuenta</h2>
 
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div class="mb-3">
@@ -54,7 +53,7 @@
 
       <button
         type="submit"
-        class="btn btn-primary w-100"
+        class="btn w-100" style="background-color: #DDA15E; color: #fff;"
         [disabled]="!registerForm.form.valid || !isPasswordSecure">
         Registrarse
       </button>
@@ -64,4 +63,3 @@
       ¿Ya tienes una cuenta? <a class="nav-link" (click)="redirectToLogin()">Inicia sesión aquí</a>
     </p>
   </div>
-</div>

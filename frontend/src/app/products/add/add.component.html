@@ -1,45 +1,67 @@
 <div class="container my-5">
-    <div class="form-container">
-      <h2 class="text-center mb-4">Agregar Nuevo Producto</h2>
-  
-      <form (ngSubmit)="onSubmit()" #productForm="ngForm" enctype="multipart/form-data">
-        <div class="mb-3">
+  <div class="bg-white p-5 rounded shadow mx-auto" style="max-width: 1000px;">
+    <h2 class="mb-4">Agregar Nuevo Producto</h2>
+
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm" enctype="multipart/form-data">
+      <div class="row g-4">
+      
+        <div class="col-md-6">
           <label for="name" class="form-label">Nombre del Producto</label>
-          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" required>
-        </div>
-  
-        <div class="mb-3">
-          <label for="category_id" class="form-label">Categoría</label>
-          <select class="form-select" id="category_id" name="category_id" [(ngModel)]="product.category_id" required>
-            <option value="">Seleccionar Categoría</option>
-            <option value="1">Hombres</option>
-            <option value="2">Mujeres</option>
-            <option value="3">Niños</option>
-            <option value="4">Niñas</option>
-          </select>
-        </div>
-  
-        <div class="mb-3">
-          <label for="description" class="form-label">Descripción</label>
-          <textarea class="form-control" id="description" name="description" [(ngModel)]="product.description" rows="3" required></textarea>
-        </div>
-  
-        <div class="mb-3">
-          <label for="price" class="form-label">Precio</label>
           <div class="input-group">
-            <span class="input-group-text">$</span>
-            <input type="number" class="form-control" id="price" name="price" [(ngModel)]="product.price" step="0.01" required>
+            <span class="input-group-text"><i class="bi bi-box"></i></span>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" required>
           </div>
         </div>
-  
-        <div class="mb-3">
+
+        <div class="col-md-6">
+          <label for="category_id" class="form-label">Categoría</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-list-task"></i></span>
+            <select class="form-select" id="category_id" name="category_id" [(ngModel)]="product.category_id" required>
+              <option value="">Seleccionar Categoría</option>
+              <option value="1">Hombres</option>
+              <option value="2">Mujeres</option>
+              <option value="3">Niños</option>
+              <option value="4">Niñas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Agrega una descripción" id="description" name="description" [(ngModel)]="product.description" style="height: 120px;" required></textarea>
+            <label for="description">Descripción</label>
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <label for="price" class="form-label">Precio</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light">$</span>
+            <input type="number" class="form-control text-success fw-semibold" id="price" name="price" [(ngModel)]="product.price" step="0.01" required>
+          </div>
+        </div>
+
+        <div class="col-md-6">
           <label for="images" class="form-label">Imágenes del Producto</label>
           <input type="file" class="form-control" id="images" name="images" (change)="onFileChange($event)" multiple accept="image/*" required>
-          <small class="text-muted">Puedes subir hasta 5 imágenes. La primera será la imagen principal.</small>
+          <small class="text-muted d-block mt-1">Puedes subir hasta 5 imágenes. La primera será la imagen principal.</small>
         </div>
-  
-        <button type="submit" class="btn btn-primary w-100">Continuar para Agregar Variantes</button>
-      </form>
-    </div>
+
+        <div class="col-12">
+          <!-- <button type="submit" class="btn w-100 py-2"
+                  style="background-color: #b46f7b9b; color: #fff; font-weight: 500; border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-2"></i>Continuar para Agregar Variantes
+          </button> -->
+
+           <button type="submit" class="btn w-100 py-2"
+                  style="background-color: #9c664498; color: var(--white); font-weight: 500; border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-2"></i>Continuar para Agregar Variantes
+          </button>
+
+        </div>
+      </div>
+    </form>
   </div>
-  
+</div>

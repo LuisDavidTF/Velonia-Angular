@@ -1,9 +1,8 @@
 <div class="container my-5">
-  <div class="form-container">
-    <h2 class="text-center mb-4">Iniciar sesión en Lincar</h2>
+    <p class="text-center mb-4 fs-3">Iniciar sesión en Velonia</p>
 
     <app-flash></app-flash>
-    <!-- 👇 Aquí se muestra error solo dentro del modal -->
+    <!--  Aquí se muestra error solo dentro del modal -->
     <div *ngIf="errorMessage" class="alert alert-danger mt-2">
       {{ errorMessage }}
     </div>
@@ -17,11 +16,10 @@
         <label for="password" class="form-label">Contraseña</label>
         <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="password">
       </div>
-      <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+      <button type="submit" class="btn w-100" style="background-color: #DDA15E; color: #fff;">Iniciar sesión</button>
     </form>
 
     <p class="text-center mt-3">
       ¿No tienes una cuenta? <a class="nav-link" (click)="redirectToRegister()">Regístrate aquí</a>
     </p>
-  </div>
 </div>

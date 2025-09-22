@@ -1,4 +1,84 @@
 <div class="container my-5">
+  <div class="form-container mx-auto px-5 shadow rounded bg-white" style="max-width: 1000px;">
+    <h2 class="mb-4" style="color: #6c6c6c;">Editar perfil</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="space">
+            <label for="username" class="form-label text-muted">Usuario</label>
+            <input formControlName="username" type="text" class="form-control border-bottom-only" required />
+          </div>
+          <div class="space">
+            <label for="email" class="form-label text-muted">Correo electrónico</label>
+            <input formControlName="email" type="email" class="form-control border-bottom-only" required />
+          </div>
+          <div class="space">
+            <label for="full_name" class="form-label text-muted">Nombre completo</label>
+            <input formControlName="full_name" type="text" class="form-control border-bottom-only" required />
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <div class="space">
+            <label for="address" class="form-label text-muted">Dirección de envío</label>
+            <textarea formControlName="address" class="form-control border-bottom-only" rows="1"></textarea>
+          </div>
+          <div class="space">
+            <label for="current-password" class="form-label text-muted">Contraseña actual</label>
+            <input formControlName="current_password" type="password" autocomplete="current-password"
+              class="form-control border-bottom-only" />
+            <small class="text-muted">Requerida solo si cambia la contraseña</small>
+          </div>
+          <div class="space">
+            <label for="new-password" class="form-label text-muted">Nueva contraseña</label>
+            <input formControlName="new_password" type="password" autocomplete="new-password"
+              class="form-control border-bottom-only" [ngClass]="{'is-invalid': showPasswordError}" />
+            <small class="text-muted">Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo</small>
+          </div>
+
+          <div *ngIf="form.get('new_password')?.value" class="password-requirements ms-1 mb-3">
+            <ul class="list-unstyled small">
+              <li
+                [ngClass]="{ 'text-success': passwordValidations.length === 5, 'text-danger': passwordValidations.length < 5 }">
+                8 o más caracteres</li>
+              <li
+                [ngClass]="{ 'text-success': passwordValidations.includes('uppercase'), 'text-danger': !passwordValidations.includes('uppercase') }">
+                Al menos una mayúscula</li>
+              <li
+                [ngClass]="{ 'text-success': passwordValidations.includes('lowercase'), 'text-danger': !passwordValidations.includes('lowercase') }">
+                Al menos una minúscula</li>
+              <li
+                [ngClass]="{ 'text-success': passwordValidations.includes('number'), 'text-danger': !passwordValidations.includes('number') }">
+                Al menos un número</li>
+              <li
+                [ngClass]="{ 'text-success': passwordValidations.includes('symbol'), 'text-danger': !passwordValidations.includes('symbol') }">
+                Al menos un símbolo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="btn w-100" style="background-color: #9c664498; color: var(--white);"
+          [disabled]="!isFormValid() || (hasSensitiveChanges() && !form.get('current_password')?.value)">
+          Actualizar perfil
+        </button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- 
+<div class="container my-5">
     <div class="form-container mx-auto" style="max-width: 600px;">
       <h2 class="text-center mb-4">Editar Perfil</h2>
   
@@ -56,4 +136,4 @@
         <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
       </form>
     </div>
-  </div>
+  </div> -->

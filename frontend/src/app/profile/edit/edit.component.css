@@ -1,24 +1,41 @@
 .password-requirements {
-    margin-top: 10px;
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .password-requirements li {
-    font-size: 14px;
-    color: #dc3545;
-    transition: color 0.3s;
-  }
-  
-  .password-requirements li.text-success {
-    color: #28a745;
-  }
-  
-  .is-invalid {
-    border-color: #dc3545 !important;
-  }
-  
-  .invalid-feedback {
-    display: block;
-  }
-  
+  margin-top: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.password-requirements li {
+  font-size: 14px;
+  color: #dc3545;
+  transition: color 0.3s;
+}
+
+.password-requirements li.text-success {
+  color: #28a745;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.border-bottom-only {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  box-shadow: none;
+  transition: border-color 0.3s;
+}
+
+.border-bottom-only:focus {
+  border-bottom-color: #dea365;
+  outline: none;
+  box-shadow: none;
+}
+
+.space{
+  height: 100px; 
+}

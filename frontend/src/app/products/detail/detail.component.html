@@ -1,95 +1,91 @@
 <div class="container my-5">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="product-gallery text-center" *ngIf="product">
-          <div
-            *ngIf="images.length > 0"
-            id="productCarousel"
-            class="carousel slide"
-            data-bs-ride="carousel"
-            style="max-width: 600px; margin: 0 auto"
-          >
-            <div class="carousel-inner">
-              <div
-                *ngFor="let image of images; let i = index"
-                class="carousel-item"
-                [class.active]="i === 0"
-              >
-                <a [href]="image" data-lightbox="product-images" [attr.data-title]="product.name">
-                  <img
-                    [src]="image"
-                    class="d-block mx-auto img-fluid"
-                    style="max-height: 600px; width: auto; object-fit: contain"
-                    [alt]="product.name"
-                  />
-                </a>
-              </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="product-gallery text-center" *ngIf="product">
+        <div *ngIf="images.length > 0" id="productCarousel" class="carousel slide" data-bs-ride="carousel"
+          style="max-width: 600px; margin: 0 auto">
+          <div class="carousel-inner">
+            <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === 0">
+              <a [href]="image" data-lightbox="product-images" [attr.data-title]="product.name">
+                <img [src]="image" class="d-block mx-auto img-fluid"
+                  style="max-height: 600px; width: auto; object-fit: contain" [alt]="product.name" />
+              </a>
             </div>
-  
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#productCarousel"
-              data-bs-slide="prev"
-            >
-              <span class="carousel-control-prev-icon" style="filter: invert(1)" aria-hidden="true"></span>
-              <span class="visually-hidden">Anterior</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#productCarousel"
-              data-bs-slide="next"
-            >
-              <span class="carousel-control-next-icon" style="filter: invert(1)" aria-hidden="true"></span>
-              <span class="visually-hidden">Siguiente</span>
-            </button>
           </div>
-        </div>
-      </div>
-  
-      <div class="col-md-6" *ngIf="product">
-        <div class="product-info">
-          <h1 class="mb-3">{{ product.name }}</h1>
-          <p class="text-muted">Vendido por {{ product.seller_name }}</p>
-          <h2 class="text-primary mb-4">${{ product.price }}</h2>
-          <p class="mb-4">{{ product.description }}</p>
-  
-          <form (ngSubmit)="addToCart()">
-            <input type="hidden" name="productId" [value]="product.id" />
-            <div class="mb-3">
-              <label class="form-label">Talla</label>
-              <select id="size-select" class="form-select" [(ngModel)]="selectedSize" name="size" required>
-                <option value="">Seleccionar Talla</option>
-                <option *ngFor="let size of availableSizes" [value]="size">{{ size }}</option>
-              </select>
-            </div>
-  
-            <div class="mb-3">
-              <label class="form-label">Color</label>
-              <select id="color-select" class="form-select" [(ngModel)]="selectedColor" name="color" required>
-                <option value="">Seleccionar Color</option>
-                <option *ngFor="let color of availableColors" [value]="color">{{ color }}</option>
-              </select>
-            </div>
-  
-            <div class="mb-3">
-              <label class="form-label">Cantidad</label>
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="quantity"
-                name="quantity"
-                min="1"
-                max="10"
-                required
-              />
-            </div>
-  
-            <button type="submit" class="btn btn-primary btn-lg w-100">Añadir al Carrito</button>
-          </form>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" style="filter: invert(1)" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" style="filter: invert(1)" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
         </div>
       </div>
     </div>
+
+    <div class="col-md-6" *ngIf="product">
+  <div class="product-info p-4 rounded bg-white shadow-sm">
+    <h1 class="mb-2 fw-bold">{{ product.name }}</h1>
+    <p class="text-muted mb-1 small">Vendido por {{ product.seller_name }}</p>
+    <h2 class="mb-3 fw-bold" style="color: #B76E79;">${{ product.price }}</h2>
+
+    <p class="mb-4 small">{{ product.description }}</p>
+
+    <form (ngSubmit)="addToCart()">
+      <input type="hidden" name="productId" [value]="product.id" />
+
+      <!-- Talla -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Talla</label>
+        <div class="d-flex gap-2">
+          <button
+            *ngFor="let size of availableSizes"
+            type="button"
+            class="btn btnSize py-1 px-3"
+            [class.active]="selectedSize === size"
+            (click)="selectedSize = size"
+          >
+            {{ size }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Color -->
+      <div class="mb-3">
+        <label for="color-select" class="form-label fw-semibold">Color</label>
+        <select
+          id="color-select"
+          class="form-select"
+          [(ngModel)]="selectedColor"
+          name="color"
+          required
+        >
+          <option value="">Seleccionar Color</option>
+          <option *ngFor="let color of availableColors" [value]="color">{{ color }}</option>
+        </select>
+      </div>
+
+      <!-- Cantidad -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Cantidad</label>
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn btnSize" (click)="quantity = quantity > 1 ? quantity - 1 : 1">-</button>
+          <span>{{ quantity }}</span>
+          <button type="button" class="btn btnSize" (click)="quantity = quantity < 10 ? quantity + 1 : 10">+</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn w-100" style="background-color: #9c664498; color: var(--white);">
+        Añadir al Carrito
+      </button>
+    </form>
   </div>
-  
+</div>
+
+
+
+    
+  </div>
+</div>
